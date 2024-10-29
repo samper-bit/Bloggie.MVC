@@ -7,8 +7,8 @@ namespace Bloggie.Web.Repositories
 {
     public class TagRepository : ITagRepository
     {
+        // dependency injection
         private readonly ApplicationDbContext _context;
-
         public TagRepository(ApplicationDbContext context)
         {
             _context = context;

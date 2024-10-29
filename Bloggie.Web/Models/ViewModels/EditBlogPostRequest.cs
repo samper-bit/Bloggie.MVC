@@ -1,6 +1,8 @@
-﻿namespace Bloggie.Web.Models.Domain
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace Bloggie.Web.Models.ViewModels
 {
-    public class BlogPost
+    public class EditBlogPostRequest
     {
         public Guid Id { get; set; }
 
@@ -12,9 +14,12 @@
         public string UrlHandle { get; set; }
         public DateTime PublishedDate { get; set; }
         public string Author { get; set; }
-        public bool Visible { get; set; } 
+        public bool Visible { get; set; }
 
-        // Navigation property
-        public ICollection<Tag> Tags { get; set; }
+        // Display tags
+        public IEnumerable<SelectListItem> Tags { get; set; }
+
+        // Collect tags
+        public string[] SelectedTags { get; set; } = Array.Empty<string>();
     }
 }

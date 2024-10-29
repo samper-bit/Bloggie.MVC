@@ -9,6 +9,7 @@ namespace Bloggie.Web.Controllers
 {
     public class AdminTagsController : Controller
     {
+        // dependency injection
         private readonly ITagRepository _tagRepository;
 
         public AdminTagsController(ITagRepository tagRepository)
@@ -35,15 +36,6 @@ namespace Bloggie.Web.Controllers
             await _tagRepository.AddAsync(tag);
 
             return RedirectToAction("List");
-        }
-
-        [HttpGet]
-        [ActionName("List")]
-        public async Task<IActionResult> List()
-        {
-            var tags = await _tagRepository.GetAllAsync();
-
-            return View(tags);
         }
 
         [HttpGet]
@@ -105,6 +97,15 @@ namespace Bloggie.Web.Controllers
             // Show an error notification
             return RedirectToAction("Edit", new { id = editTagRequest.Id });
 
+        }
+
+        [HttpGet]
+        [ActionName("List")]
+        public async Task<IActionResult> List()
+        {
+            var tags = await _tagRepository.GetAllAsync();
+
+            return View(tags);
         }
     }
 }
