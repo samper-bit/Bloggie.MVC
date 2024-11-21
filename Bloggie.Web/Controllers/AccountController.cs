@@ -25,23 +25,26 @@ namespace Bloggie.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel viewModel)
         {
-            var identityUser = new IdentityUser
+            if (ModelState.IsValid)
             {
-                UserName = viewModel.Username,
-                Email = viewModel.Email
-            };
-
-            var identityResult = await _userManager.CreateAsync(identityUser, viewModel.Password);
-
-            if (identityResult.Succeeded)
-            {
-                // assign this user the "User" role
-                var roleIdentityResult = await _userManager.AddToRoleAsync(identityUser, "User");
-
-                if (roleIdentityResult.Succeeded)
+                var identityUser = new IdentityUser
                 {
-                    // Show success notification
-                    return RedirectToAction("Register");
+                    UserName = viewModel.Username,
+                    Email = viewModel.Email
+                };
+
+                var identityResult = await _userManager.CreateAsync(identityUser, viewModel.Password);
+
+                if (identityResult.Succeeded)
+                {
+                    // assign this user the "User" role
+                    var roleIdentityResult = await _userManager.AddToRoleAsync(identityUser, "User");
+
+                    if (roleIdentityResult.Succeeded)
+                    {
+                        // Show success notification
+                        return RedirectToAction("Register");
+                    }
                 }
             }
 
@@ -63,7 +66,10 @@ namespace Bloggie.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel viewModel)
         {
-
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
             var signInResult = await _signInManager.PasswordSignInAsync(viewModel.Username,
                 viewModel.Password, false, false);
 
